@@ -1,0 +1,17 @@
+from Products.CMFCore.utils import getToolByName
+
+acl_users = getToolByName(context, 'acl_users')
+groups_tool = getToolByName(context, 'portal_groups')
+groups = acl_users.source_groups.getGroupIds()
+for group_id in groups:
+    group = groups_tool.getGroupById(group_id)
+    if group is None:
+        continue
+    members = group.getGroupMembers()
+    group_name = group.getGroupName()
+    for member in members:
+      member_email = member.getProperty('email')
+      member_name = member.getProperty('fullname')
+      member_id = member.getProperty('id')
+      print "%s,%s,%s,%s" % (group_name, member_name, member_id, member_email)
+return printed
